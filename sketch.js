@@ -1,19 +1,19 @@
-var starImg,bgImg;
+var starImg, fairyImg, bgImg;
+var fairy , fairyVoice;
 var star, starBody;
-var fairy, fairyVoice;
-//create variable for fairy sprite and fairyImg
 
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
-const Body = Matter.Body;
+//const Body = Matter.Body;
 
 function preload()
 {
 	starImg = loadImage("images/star.png");
+	fairyImg = loadAnimation("images/fairyImage1.png","images/fairyImage2.png");
 	bgImg = loadImage("images/starNight.png");
-	fairyVoice=loadSound("sound/JoyMusic.mp3");
-	fairyImg= loadAnimation("images/fairyImage1.png","images/fairyImage2.png");
+	fairyVoice = loadSound("sound/JoyMusic.mp3");
+
 }
 
 function setup() {
@@ -21,9 +21,9 @@ function setup() {
 
 	fairyVoice.play();
 
-	fairy= createSprite(140,550);
-	fairy.addAnimation("fairyflying",fairyImg);
-	fairy.scale=0.26;
+	fairy = createSprite(130, 520);
+	fairy.addAnimation("fairyflying",fairyImg);  
+	fairy.scale =0.25;
 
 	star = createSprite(650,30);
 	star.addImage(starImg);
@@ -36,7 +36,7 @@ function setup() {
 	starBody = Bodies.circle(650 , 30 , 5 , {restitution:0.5, isStatic:true});
 	World.add(world, starBody);
 	
-	Engine.run(engine);
+	
 
 }
 
@@ -44,13 +44,15 @@ function setup() {
 function draw() {
   background(bgImg);
 
+  Engine.update(engine);
+
   star.x= starBody.position.x 
   star.y= starBody.position.y 
 
   console.log(star.y);
 
-  if(star.y>470 && star.position.y>470){
-	  Matter.Body.setStatic(starBody,true);
+  if(star.y > 470 && starBody.position.y > 470 ){
+  	Matter.Body.setStatic(starBody,true);
   }
 
   drawSprites();
@@ -59,16 +61,21 @@ function draw() {
 
 function keyPressed() {
 
+	//here in programming all the key which we take input feom keyboard is considerd as key code
+	//key down and key code are equal its just that this keycode follows ASCII code we will learn in next classes
+    //                               | |
+	//                               | |
+	//                           thankyou so much madam
+	                       
+	if(keyCode === RIGHT_ARROW){
+           fairy.x = fairy.x + 20;
+	}
+	
+        if(keyCode === LEFT_ARROW){
+           fairy.x = fairy.x - 20;
+	}
+
 	if (keyCode === DOWN_ARROW) {
 		Matter.Body.setStatic(starBody,false); 
 	}
-
-	if(keyCode === RIGHT_ARROW){
-		fairy.x = fairy.x + 20;
- }
- 
-	 if(keyCode === LEFT_ARROW){
-		fairy.x = fairy.x - 20;
- }
-
 }
